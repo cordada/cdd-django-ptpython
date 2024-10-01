@@ -1,0 +1,28 @@
+# Git
+.git/
+
+# Compiled Python Files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Python Distribution & Packaging
+*.egg-info/
+/build/
+/dist/
+
+# Mypy
+.mypy_cache/
+
+# Python Virtual Environment
+/.pyenv/
+/pyenv/
+
+# Cache
+.cache/
+
+# Logs
+*.log
+
+# Keep
+!.keep
