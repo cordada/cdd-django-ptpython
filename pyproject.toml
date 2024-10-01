@@ -1,0 +1,54 @@
+# Python Project Configuration
+#
+# Documentation:
+# - https://packaging.python.org/en/latest/specifications/pyproject-toml/
+#   (https://github.com/pypa/packaging.python.org/blob/caa20073/source/specifications/pyproject-toml.rst)
+# - https://pip.pypa.io/en/stable/reference/build-system/pyproject-toml/
+#   (https://github.com/pypa/pip/blob/24.2/docs/html/reference/build-system/pyproject-toml.md)
+# - https://setuptools.pypa.io/en/latest/userguide/pyproject_config.html
+#   (https://github.com/pypa/setuptools/blob/v70.3.0/docs/userguide/pyproject_config.rst)
+
+[build-system]
+requires = [
+  "setuptools==75.1.0",
+  "wheel==0.44.0",
+]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "cordada-django-ptpython"
+version = "0.1.0-dev"
+dependencies = [
+  "Django>=4.2",
+  "ptpython>=3.0.28",
+]
+requires-python = ">=3.10"
+authors = [
+  {name = "Cordada", email = "no-reply@cordada.com"},
+]
+description = "A library that adds support for using Ptpython with `django-admin shell`."
+readme = "README.md"
+license = {text = "MIT"}
+classifiers = [
+  "Development Status :: 3 - Alpha",
+  "Framework :: Django",
+  "Framework :: Django :: 4.2",
+  "Intended Audience :: Developers",
+  "License :: OSI Approved :: MIT License",
+  "Natural Language :: English",
+  "Operating System :: OS Independent",
+  "Programming Language :: Python :: 3",
+  "Programming Language :: Python :: 3.10",
+]
+
+[project.urls]
+Homepage = "https://github.com/cordada/cdd-django-ptpython/"
+
+[tool.setuptools]
+include-package-data = true
+
+[tool.setuptools.packages.find]
+where = ["src"]
+include = ["*"]
+exclude = []
+namespaces = true
