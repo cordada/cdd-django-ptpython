@@ -4,6 +4,7 @@ import os
 import sys
 import warnings
 from collections.abc import Mapping
+from pathlib import Path
 from typing import Any, ClassVar
 
 import django.core.management
@@ -151,6 +152,26 @@ class Command(django.core.management.commands.shell.Command):
                 #   https://github.com/python/cpython/blob/v3.10.14/Lib/asyncio/__main__.py#L84-L87
             )
 
+        def get_history_file_path(
+            env_var: str = 'PYTHON_HISTORY',
+            default_filename: Path = Path('.python_history'),
+        ) -> Path:
+            history_file_path: Path
+
+            if sys.version_info >= (3, 13):
+                import site
+
+                history_file_path = Path(site.gethistoryfile())
+                # See also:
+                #   [`site.gethistoryfile()`](https://github.com/python/cpython/blob/v3.13.0/Lib/site.py#L466-L476) # noqa: E501
+            else:
+                if _history_file_path := os.getenv(env_var):
+                    history_file_path = Path(_history_file_path)
+                else:
+                    history_file_path = Path('~', default_filename).expanduser()
+
+            return history_file_path
+
         def configure_ptpython(repl: ptpython.repl.PythonRepl) -> None:
             """
             Configure the Ptpython REPL (Read–Eval–Print Loop).
@@ -169,4 +190,11 @@ class Command(django.core.management.commands.shell.Command):
             if options['ptpython_title']:
                 repl.title = options['ptpython_title']
 
-        ptpython.repl.embed(globals(), locals(), configure=configure_ptpython)
+        history_file_path = str(get_history_file_path())
+
+        ptpython.repl.embed(
+            globals(),
+            locals(),
+            configure=configure_ptpython,
+            history_filename=history_file_path,
+        )
